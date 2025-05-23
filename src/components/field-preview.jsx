@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   TextInput,
   TextAreaInput,
@@ -6,68 +7,91 @@ import {
   RadioGroup,
 } from '../components/common';
 import { useForm } from '../context/form-context';
+import { Form } from 'antd';
 import FormRenderer from './form-renderer';
 
 const FieldPreview = () => {
   const { fields, formData, setFormData } = useForm();
+  const [form] = Form.useForm();
 
-  const handleChange = (id, value) => {
-    setFormData({ ...formData, [id]: value });
+  const onValuesChange = (_, allValues) => {
+    setFormData(allValues);
   };
 
   return (
-    <div className="p-4 space-y-4 bg-gray-100 rounded">
-      {fields.map((field) => (
-        <div key={field.id}>
-          <label className="block font-medium mb-1">
-            {field.label}
-            {field.required && <span className="text-red-500 ml-1">*</span>}
-          </label>
+    <Form
+      form={form}
+      layout="vertical"
+      onValuesChange={onValuesChange}
+      initialValues={formData}
+    >
+      {fields.map((field) => {
+        let inputNode = null;
 
-          {field.type === 'text' && (
-            <TextInput
-              placeholder={field.placeholder}
-              value={formData[field.id]}
-              onChange={(e) => handleChange(field.id, e.target.value)}
-            />
-          )}
+        switch (field.type) {
+          case 'text':
+            inputNode = (
+              <TextInput
+                placeholder={field.placeholder}
+              />
+            );
+            break;
 
-          {field.type === 'textarea' && (
-            <TextAreaInput
-              placeholder={field.placeholder}
-              value={formData[field.id]}
-              onChange={(e) => handleChange(field.id, e.target.value)}
-            />
-          )}
+          case 'textarea':
+            inputNode = (
+              <TextAreaInput
+                placeholder={field.placeholder}
+              />
+            );
+            break;
 
-          {field.type === 'select' && (
-            <SelectInput
-              placeholder={field.placeholder}
-              value={formData[field.id]}
-              options={field.options || []}
-              onChange={(value) => handleChange(field.id, value)}
-            />
-          )}
+          case 'select':
+            inputNode = (
+              <SelectInput
+                placeholder={field.placeholder}
+                options={field.options || []}
+              />
+            );
+            break;
 
-          {field.type === 'checkbox' && (
-            <CheckboxGroup
-              options={field.options || []}
-              values={formData[field.id] || {}}
-              onChange={(values) => handleChange(field.id, values)}
-            />
-          )}
+          case 'checkbox':
+            inputNode = (
+              <CheckboxGroup
+                options={field.options || []}
+              />
+            );
+            break;
 
-          {field.type === 'radio' && (
-            <RadioGroup
-              options={field.options || []}
-              value={formData[field.id]}
-              onChange={(e) => handleChange(field.id, e.target.value)}
-            />
-          )}
-        </div>
-      ))}
-      <FormRenderer />
-    </div>
+          case 'radio':
+            inputNode = (
+              <RadioGroup
+                options={field.options || []}
+              />
+            );
+            break;
+
+          default:
+            return null;
+        }
+
+        return (
+          <Form.Item
+            key={field.id}
+            name={field.id.toString()}
+            label={field.label}
+            rules={
+              field.required
+                ? [{ required: true, message: `${field.label} is required` }]
+                : []
+            }
+          >
+            {inputNode}
+          </Form.Item>
+        );
+      })}
+
+      <FormRenderer form={form} />
+    </Form>
   );
 };
 
