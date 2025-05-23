@@ -61,6 +61,10 @@ const FieldEditor = () => {
     );
   };
 
+  const removeField = (id) => {
+    setFields(fields.filter((field) => field.id !== id));
+  };
+
   return (
     <div className="max-h-[300px] gap-2 overflow-auto flex flex-col items-center bg-white p-4 rounded-lg shadow w-full mb-6">
       <div className="flex justify-between items-center w-full mb-4">
@@ -69,7 +73,7 @@ const FieldEditor = () => {
       </div>
 
       {fields.map((field) => (
-        <div key={field.id} className="border p-4 rounded shadow space-y-3 bg-white w-full">
+        <div key={field.id} className="border p-2 rounded shadow space-y-3 bg-white w-full relative">
           <div className="flex gap-2 items-center">
             <SelectInput
               options={fieldTypes}
@@ -92,13 +96,20 @@ const FieldEditor = () => {
             >
               Required
             </Checkbox>
+            <Button
+              type="text"
+              danger
+              icon={<DeleteOutlined />}
+              onClick={() => removeField(field.id)}
+              title="Delete Field"
+            >Remove</Button>
           </div>
 
           {(field.type === 'select' || field.type === 'radio' || field.type === 'checkbox') && (
             <div className="space-y-2">
-              <div className="flex justify-between">
-                <label className="block font-medium text-gray-700">Options</label>
-                <Button type="dashed" icon={<PlusOutlined />} onClick={() => addOption(field.id)}>
+              <div className="flex justify-between items-center">
+                <label className="text-gray-700">Options</label>
+                <Button type="dashed" className='' icon={<PlusOutlined />} onClick={() => addOption(field.id)}>
                   Add Option
                 </Button>
               </div>
