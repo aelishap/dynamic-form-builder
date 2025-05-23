@@ -12,7 +12,7 @@ const InnerMainSection = () => {
             <FieldEditor />
             {fields.length > 0 && (
                 <div className="bg-gray-50 p-6 rounded-lg shadow-md">
-                    <h3 className="text-lg font-medium text-gray-700 mb-4">Form Details</h3>
+                    <h3 className="text-lg font-medium text-gray-700 mb-4">Form Detail</h3>
                     <div className="space-y-4">
                         <FieldPreview />
                     </div>
