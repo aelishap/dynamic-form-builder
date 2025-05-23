@@ -1,9 +1,15 @@
-import { Button } from 'antd';
+import { Button as AntButton } from 'antd';
 
-const PrimaryButton = ({ children, ...rest }) => (
-  <Button type="primary" {...rest}>
-    {children}
-  </Button>
-);
+const Button = ({ type = 'default', children, ...rest }) => {
+  const btnType = ['primary', 'dashed', 'link', 'text', 'ghost', 'default'].includes(type)
+    ? type
+    : 'default';
 
-export default PrimaryButton;
+  return (
+    <AntButton type={btnType} {...rest}>
+      {children}
+    </AntButton>
+  );
+};
+
+export default Button;

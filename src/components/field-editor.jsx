@@ -1,7 +1,9 @@
-import TextInput from '../components/common/input';
-import PrimaryButton from '../components/common/button';
-import SelectInput from '../components/common/dropdown';
-import { Button, Checkbox, Space } from 'antd';
+import {
+  Button,
+  TextInput,
+  SelectInput,
+} from '../components/common';
+import { Checkbox, Space } from 'antd';
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useForm } from '../context/form-context';
 
@@ -69,7 +71,7 @@ const FieldEditor = () => {
     <div className="max-h-[300px] gap-2 overflow-auto flex flex-col items-center bg-white p-4 rounded-lg shadow w-full mb-6">
       <div className="flex justify-between items-center w-full mb-4">
         <h2 className="text-xl font-semibold text-gray-800">Add Form Fields</h2>
-        <PrimaryButton onClick={addField}>Add Field</PrimaryButton>
+        <Button type="primary" onClick={addField}>Add Field</Button>
       </div>
 
       {fields.map((field) => (
@@ -102,14 +104,16 @@ const FieldEditor = () => {
               icon={<DeleteOutlined />}
               onClick={() => removeField(field.id)}
               title="Delete Field"
-            >Remove</Button>
+            >
+              Remove
+            </Button>
           </div>
 
           {(field.type === 'select' || field.type === 'radio' || field.type === 'checkbox') && (
             <div className="space-y-2">
               <div className="flex justify-between items-center">
                 <label className="text-gray-700">Options</label>
-                <Button type="dashed" className='' icon={<PlusOutlined />} onClick={() => addOption(field.id)}>
+                <Button type="dashed" icon={<PlusOutlined />} onClick={() => addOption(field.id)}>
                   Add Option
                 </Button>
               </div>

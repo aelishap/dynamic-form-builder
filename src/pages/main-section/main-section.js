@@ -16,9 +16,6 @@ const InnerMainSection = () => {
                     <div className="space-y-4">
                         <FieldPreview />
                     </div>
-                    <div className="mt-6 flex justify-end">
-                        <FormRenderer />
-                    </div>
                 </div>
             )}
         </div>

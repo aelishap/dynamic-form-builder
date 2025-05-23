@@ -1,9 +1,12 @@
-import TextInput from '../components/common/input';
-import TextAreaInput from '../components/common/textarea';
-import SelectInput from '../components/common/dropdown';
-import CheckboxGroup from '../components/common/checkbox';
-import RadioGroup from '../components/common/radio-button';
+import {
+  TextInput,
+  TextAreaInput,
+  SelectInput,
+  CheckboxGroup,
+  RadioGroup,
+} from '../components/common';
 import { useForm } from '../context/form-context';
+import FormRenderer from './form-renderer';
 
 const FieldPreview = () => {
   const { fields, formData, setFormData } = useForm();
@@ -63,6 +66,7 @@ const FieldPreview = () => {
           )}
         </div>
       ))}
+      <FormRenderer />
     </div>
   );
 };
